@@ -1,0 +1,35 @@
+name: Atualizar Site de Notícias de IA
+
+on:
+  schedule:
+    - cron: '0 11 * * *'   # Executa todos os dias às 08:00 BRT
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependências
+        run: |
+          pip install --upgrade pip
+          pip install beautifulsoup4 requests openai
+
+      - name: Gerar site com notícias de IA
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python generate_news_site.py
+
+      - name: Publicar no GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
