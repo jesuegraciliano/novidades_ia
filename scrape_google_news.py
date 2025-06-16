@@ -4,14 +4,14 @@ from typing import List
 
 def scrape_google_news(max_items: int = 3) -> List[dict]:
     url = "https://news.google.com/home?hl=pt-BR&gl=BR&ceid=BR:pt-419"
-    headers = {"User-Agent": "IA-News-Scraper/1.0"}
+    headers = {"User-Agent": "Mozilla/5.0"}
 
     response = requests.get(url, headers=headers, timeout=30)
     response.raise_for_status()
     soup = BeautifulSoup(response.text, "html.parser")
 
     results = []
-    articles = soup.select("a.DY5T1d")  # classe dos títulos de notícia
+    articles = soup.select("a.DY5T1d")
 
     for a in articles[:max_items]:
         title = a.get_text(strip=True)
