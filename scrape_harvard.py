@@ -4,7 +4,7 @@ from typing import List
 
 def scrape_harvard_news(max_items: int = 3) -> List[dict]:
     url = "https://news.harvard.edu/gazette/"
-    headers = {"User-Agent": "IA-News-Scraper/1.0"}
+    headers = {"User-Agent": "Mozilla/5.0"}
 
     response = requests.get(url, headers=headers, timeout=30)
     response.raise_for_status()
